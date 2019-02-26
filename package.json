@@ -1,0 +1,31 @@
+{
+  "name": "proxc",
+  "version": "0.0.1",
+  "description": "ProxC allows you to create extensible classes using ES6 Proxy objects and design declarative APIs that are a joy to use.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rioam2/ProxC.git"
+  },
+  "keywords": [
+    "npm-package",
+    "nodejs",
+    "api-wrapper",
+    "typescript",
+    "operator",
+    "overloading",
+    "javascript",
+    "functors",
+    "index-operator",
+    "bracket-operator",
+    "setters",
+    "getters"
+  ],
+  "author": "rioam2",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rioam2/ProxC/issues"
+  },
+  "homepage": "https://github.com/rioam2/ProxC#readme"
+}
