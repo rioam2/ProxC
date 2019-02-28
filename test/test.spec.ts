@@ -42,7 +42,7 @@ describe('Basic Functionality', () => {
     });
   });
 
-  it('has functional index operator', () => {
+  it('has functional accessor operator', () => {
     const mirror = new IndexableClass();
     [...new Array(10)].forEach((e, i) => {
       expect(mirror[i]).to.equal(i);
