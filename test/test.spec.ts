@@ -61,5 +61,9 @@ describe('Basic Functionality', () => {
     [6, 5, 4, 3, 2, 1, 0].forEach((e, i) => {
       expect(res[i]).to.equal(e);
     });
+
+    expect(classWithStorage.apple).to.equal('orange');
+    expect(classWithStorage.saveTheWorld()).to.equal('easy');
+    expect(classWithStorage.isCool).to.be.true;
   });
 });
