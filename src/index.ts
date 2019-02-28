@@ -8,23 +8,33 @@ export interface ProxC {
 export class ProxC {
   constructor() {
     /* Define iterator symbol on class for iteration */
-    this[Symbol.iterator] = function*() {
+    this[Symbol.iterator] = function*(this: any) {
       for (let elt of this['__proto__iterate__']()) yield elt;
-    };
+    }.bind(this);
 
     /* Forward custom implementation of fundamental operations
        to respective class methods */
     const handler = {
       get: (tar: any, prop: number | string) => {
+        if (!tar) tar = this; /* Fallback if not bound */
         /* If member exists on class, dont use custom logic */
-        if (this[prop] !== undefined) {
-          return this[prop];
+        if (tar[prop] !== undefined) {
+          return tar[prop];
         } else {
-          return this['__proto__index__'](prop);
+          /* Handler captures prop as a string, convert if necessary */
+          try {
+            if (Number(prop) == prop) {
+              return this['__proto__index__'].call(tar, Number(prop));
+            } else {
+              return this['__proto__index__'].call(tar, prop);
+            }
+          } catch (e) {
+            return tar[prop];
+          }
         }
       },
       apply: (tar: any, thisArg: any, argList: any[]) => {
-        return this['__proto__invoke__'].call(thisArg, ...argList);
+        return this['__proto__invoke__'].call(thisArg || this, ...argList);
       }
     };
 
@@ -35,8 +45,16 @@ export class ProxC {
     const merged = Object.assign(func, this);
     const withProxy = new Proxy(merged, handler);
 
-    /* Return the wrapped class */
-    return withProxy;
+    /* Rebind context with class to rebuild inheritance chain */
+    const final = Object.assign(withProxy, this);
+
+    /* Bind context of all member methods to this instance */
+    this.__proto__index__ = this.__proto__index__.bind(final);
+    this.__proto__invoke__ = this.__proto__invoke__.bind(final);
+    this.__proto__iterate__ = this.__proto__iterate__.bind(final);
+
+    /* Return the final wrapped class */
+    return final as ProxC;
   }
 
   /**
