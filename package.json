@@ -1,12 +1,17 @@
 {
   "name": "proxc",
+  "license": "MIT",
   "version": "0.0.1",
+  "author": "rioam2",
+  "homepage": "https://github.com/rioam2/ProxC#readme",
   "description": "ProxC allows you to create extensible classes using ES6 Proxy objects and design declarative APIs that are a joy to use.",
-  "main": "index.js",
-  "scripts": {},
+  "main": "./dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rioam2/ProxC.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rioam2/ProxC/issues"
   },
   "keywords": [
     "npm-package",
@@ -22,10 +27,15 @@
     "setters",
     "getters"
   ],
-  "author": "rioam2",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rioam2/ProxC/issues"
+  "scripts": {
+    "build": "tsc",
+    "pretest": "yarn build",
+    "test": "mocha --reporter spec ./dist/test"
   },
-  "homepage": "https://github.com/rioam2/ProxC#readme"
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "typescript": "^3.3.3333"
+  }
 }
