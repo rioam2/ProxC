@@ -28,10 +28,10 @@
     "getters"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "pretest": "yarn build",
-    "test": "mocha --reporter spec dist/test/**/*.js",
-    "watch": "mocha --require ts-node/register --watch-extensions ts --watch test/**/*.ts"
+    "test": "mocha --reporter spec dist/test/**/*.spec.js",
+    "watch": "mocha --require ts-node/register --watch-extensions ts --watch test/**/*.spec.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
