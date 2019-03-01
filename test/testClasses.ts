@@ -1,19 +1,19 @@
 import { ProxC } from '../src';
 
 export class IterableClass extends ProxC {
-  __iterator__() {
+  protected __iterator__() {
     return [0, 1, 2, 3, 4];
   }
 }
 
 export class InvokableClass extends ProxC {
-  __invoke__(arg1: any) {
+  protected __invoke__(arg1: any) {
     return arg1;
   }
 }
 
 export class IndexableClass extends ProxC {
-  __accessor__(prop: number | string) {
+  protected __accessor__(prop: number | string) {
     return prop;
   }
 }
@@ -44,11 +44,11 @@ export class ClassWithStorage extends ProxC {
   }
 
   /* Performs a*b */
-  __invoke__() {
+  protected __invoke__() {
     return this.a * this.b;
   }
 
-  __iterator__() {
+  protected __iterator__() {
     return this.internalArray.reverse();
   }
 }
