@@ -5,7 +5,8 @@ import {
   IterableClass,
   InvokableClass,
   IndexableClass,
-  ClassWithStorage
+  ClassWithStorage,
+  ClassWithMemberMethods
 } from './testClasses';
 
 const { describe, it } = mocha;
@@ -19,11 +20,6 @@ describe('Basic Functionality', () => {
       constructs = true;
     } catch (e) {}
     expect(constructs).to.be.true;
-  });
-
-  it('is a function prototype', () => {
-    const prox = new ProxC();
-    expect(typeof prox).to.equal(typeof Function);
   });
 
   it('has functional iterator Symbol', () => {
@@ -65,5 +61,10 @@ describe('Basic Functionality', () => {
     expect(classWithStorage.apple).to.equal('orange');
     expect(classWithStorage.saveTheWorld()).to.equal('easy');
     expect(classWithStorage.isCool).to.be.true;
+  });
+
+  it('child can reference own member methods', () => {
+    const classWithMember = new ClassWithMemberMethods();
+    expect(classWithMember.memberFunc()).to.be.true;
   });
 });

@@ -52,3 +52,9 @@ export class ClassWithStorage extends ProxC {
     return this.internalArray.reverse();
   }
 }
+
+export class ClassWithMemberMethods extends ProxC {
+  public memberFunc() {
+    return true;
+  }
+}
