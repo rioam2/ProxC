@@ -14,7 +14,7 @@ export class ProxC {
 
     /* Forward custom implementation of fundamental operations
        to respective class methods */
-    const handler = {
+    const proxyHandler = {
       get: (tar: any, prop: number | string) => {
         if (!tar) tar = this; /* Fallback if not bound */
         /* If member exists on class, dont use custom logic */
@@ -38,23 +38,21 @@ export class ProxC {
       }
     };
 
-    /* The next few lines merge this class prototype chain
-       into that of a new bound function to enable the 'apply'
-       hook through the Function's invocation prototype */
-    const func = new Function().bind(this);
-    const merged = Object.assign(func, this);
-    const withProxy = new Proxy(merged, handler);
+    /* Create a new proxy object around the Function prototype
+       to enable call interception (only viable on Function types) */
+    const withProxy = new Proxy(Function, proxyHandler);
 
-    /* Rebind context with class to rebuild inheritance chain */
-    const final = Object.assign(withProxy, this);
+    /* Assign prototype chain of the class to the proxy wrapper */
+    Object.assign(withProxy, this);
+    Object.setPrototypeOf(withProxy, Object.getPrototypeOf(this));
 
     /* Bind context of all member methods to this instance */
-    this.__accessor__ = this.__accessor__.bind(final);
-    this.__invoke__ = this.__invoke__.bind(final);
-    this.__iterator__ = this.__iterator__.bind(final);
+    this.__accessor__ = this.__accessor__.bind(withProxy);
+    this.__invoke__ = this.__invoke__.bind(withProxy);
+    this.__iterator__ = this.__iterator__.bind(withProxy);
 
-    /* Return the final wrapped class */
-    return final as ProxC;
+    /* Return the withProxy class */
+    return withProxy as ProxC;
   }
 
   /**
