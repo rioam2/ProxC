@@ -5,12 +5,14 @@ export interface ProxC {
   [index: number]: any;
 }
 
-export class ProxC {
+export abstract class ProxC {
+  public *[Symbol.iterator](): IterableIterator<any> {}
+
   constructor() {
     /* Define iterator symbol on class for iteration */
     this[Symbol.iterator] = function*(this: any) {
       for (let elt of this['__iterator__']()) yield elt;
-    }.bind(this);
+    };
 
     /* Forward custom implementation of fundamental operations
        to respective class methods */
@@ -23,14 +25,14 @@ export class ProxC {
           try {
             /* Handler captures prop as a string, try to convert if necessary */
             const nProp = Number(prop);
-            return this['__accessor__'].call(tar, nProp == prop ? nProp : prop);
+            return tar['__accessor__'].call(tar, nProp == prop ? nProp : prop);
           } catch (e) {
-            return this['__accessor__'].call(tar, prop);
+            return tar['__accessor__'].call(tar, prop);
           }
         }
       },
       apply: (tar: any, thisArg: any, argList: any[]) => {
-        return this['__invoke__'].call(thisArg || this, ...argList);
+        return tar['__invoke__'].call(thisArg || tar, ...argList);
       }
     };
 
@@ -42,56 +44,27 @@ export class ProxC {
     Object.assign(withProxy, this);
     Object.setPrototypeOf(withProxy, Object.getPrototypeOf(this));
 
-    /* Bind context of all member methods to this instance */
-    this.__accessor__ = this.__accessor__.bind(withProxy);
-    this.__invoke__ = this.__invoke__.bind(withProxy);
-    this.__iterator__ = this.__iterator__.bind(withProxy);
-
-    /* Return the withProxy class */
+    /* Return the wrapped class */
     return withProxy as ProxC;
   }
 
   /**
-   * A method that returns the default iterator for an object.
-   * Called by the semantics of the for-of statement.
-   * Implemented by the __iterator__ class method.
+   * Defines how class should be handled as an iterable object.
    */
-  *[Symbol.iterator](): IterableIterator<any> {}
-
-  /**
-   * Defines how this class should be handled as an iterable object.
-   *
-   * @return `any[]` An iterable array to yield to for..of loops.
-   */
-  protected __iterator__() {
-    /* This method should be overloaded by child classes, default
-       behavior will throw a TypeError */
-
-    /* Show file & line number of invocation in stderr */
-    const stackArr = (new Error().stack as string).split(/\r\n|\n/);
-    const traceIdx = stackArr.findIndex(elt => elt.includes('Object.next')) + 1;
-    const trace = stackArr[traceIdx];
-    const fileRef = (trace.split('/').pop() as string).slice(0, -1);
-    /* Throw error with invocation trace */
+  protected __iterator__(): any[] {
     throw new TypeError(
-      `${fileRef}: ProxC: Class method __iterator__ must be implemented.\n`
+      `ProxC: Class method __iterator__ must be implemented.\n`
     );
-    return new Array(); /* Make Typescript happy :) */
   }
 
   /**
    * Defines custom behavior for the class invocation/call operator.
    * Invoked whenever an instance of a class is called.
-   *
-   * Example: `myClass(1,2)` invokes `__invoke__(1,2)` on myClass.
-   *
-   * @param `...argList` variadic argument list
    */
-  protected __invoke__(...argList: any) {
+  protected __invoke__(...argList: any): any {
     throw new TypeError(
       `ProxC: Class method __invoke__ must be implemented.\n\n`
     );
-    return undefined as any; /* Make Typescript happy :) */
   }
 
   /**
@@ -99,13 +72,6 @@ export class ProxC {
    * known as the accessor operator). Invoked whenever bracket notation
    * or dot notation is used on a class instance and the supplied
    * `prop` is not a member of the current class implementation.
-   *
-   * Example: `myClass['hello']` invokes `__accessor__('hello')` on myClass.
-   *
-   * @param `prop` supplied index or key parameter
    */
-  protected __accessor__(prop: number | string) {
-    /* Only called when member DNE, default logic will return undefined */
-    return undefined as any; /* Make Typescript happy :) */
-  }
+  protected __accessor__(prop: number | string): any {}
 }
