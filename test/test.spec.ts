@@ -1,6 +1,5 @@
 import chai = require('chai');
 import mocha = require('mocha');
-import { ProxC } from '../src';
 import {
   IterableClass,
   InvokableClass,
@@ -14,16 +13,7 @@ const { describe, it } = mocha;
 const { expect, should } = chai;
 
 describe('Basic Functionality', () => {
-  it('can be constructed', () => {
-    let constructs = false;
-    try {
-      const prox = new ProxC();
-      constructs = true;
-    } catch (e) {}
-    expect(constructs).to.be.true;
-  });
-
-  it('has functional iterator Symbol', () => {
+  it('is an iterable object (Symbol.iterator)', () => {
     const iter = new IterableClass();
     let res = [];
     for (const i of iter) res.push(i);
@@ -32,14 +22,14 @@ describe('Basic Functionality', () => {
     }
   });
 
-  it('can be invoked', () => {
+  it('is an invokable object (call operator)', () => {
     const mirror = new InvokableClass();
     [...new Array(10)].forEach((e, i) => {
       expect(mirror(i)).to.equal(i);
     });
   });
 
-  it('has functional accessor operator', () => {
+  it('is an accessible object (accessor operator)', () => {
     const mirror = new IndexableClass();
     [...new Array(10)].forEach((e, i) => {
       expect(mirror[i]).to.equal(i);
@@ -47,7 +37,7 @@ describe('Basic Functionality', () => {
     });
   });
 
-  it('can reference itself internally through "this" keyword', () => {
+  it('has correct context binding', () => {
     const classWithStorage = new ClassWithStorage();
     classWithStorage.a = 10;
     classWithStorage.b = 2;
@@ -64,12 +54,12 @@ describe('Basic Functionality', () => {
     expect(classWithStorage.isCool).to.be.true;
   });
 
-  it('child can reference own member methods', () => {
+  it('has access to own member functions', () => {
     const classWithMember = new ClassWithMemberMethods();
     expect(classWithMember.memberFunc()).to.be.true;
   });
 
-  it('should retain class getters and setters', () => {
+  it('has access to own setter/getter methods', () => {
     const cwgs = new ClassWithGettersSetters();
     expect(cwgs.map).to.equal("I'm the map!");
     cwgs.map = "It's the map!";
