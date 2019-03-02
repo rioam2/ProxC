@@ -16,20 +16,16 @@ export class ProxC {
        to respective class methods */
     const proxyHandler = {
       get: (tar: any, prop: number | string) => {
-        if (!tar) tar = this; /* Fallback if not bound */
         /* If member exists on class, dont use custom logic */
         if (tar[prop] !== undefined) {
           return tar[prop];
         } else {
-          /* Handler captures prop as a string, convert if necessary */
           try {
-            if (Number(prop) == prop) {
-              return this['__accessor__'].call(tar, Number(prop));
-            } else {
-              return this['__accessor__'].call(tar, prop);
-            }
+            /* Handler captures prop as a string, try to convert if necessary */
+            const nProp = Number(prop);
+            return this['__accessor__'].call(tar, nProp == prop ? nProp : prop);
           } catch (e) {
-            return tar[prop];
+            return this['__accessor__'].call(tar, prop);
           }
         }
       },
