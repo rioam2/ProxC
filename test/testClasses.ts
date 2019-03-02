@@ -58,3 +58,16 @@ export class ClassWithMemberMethods extends ProxC {
     return true;
   }
 }
+
+export class ClassWithGettersSetters extends ProxC {
+  constructor() {
+    super();
+    this.m = "I'm the map!";
+  }
+  public get map(): string {
+    return this.m;
+  }
+  public set map(v: string) {
+    this.map = v;
+  }
+}

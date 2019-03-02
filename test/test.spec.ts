@@ -6,7 +6,8 @@ import {
   InvokableClass,
   IndexableClass,
   ClassWithStorage,
-  ClassWithMemberMethods
+  ClassWithMemberMethods,
+  ClassWithGettersSetters
 } from './testClasses';
 
 const { describe, it } = mocha;
@@ -66,5 +67,12 @@ describe('Basic Functionality', () => {
   it('child can reference own member methods', () => {
     const classWithMember = new ClassWithMemberMethods();
     expect(classWithMember.memberFunc()).to.be.true;
+  });
+
+  it('should retain class getters and setters', () => {
+    const cwgs = new ClassWithGettersSetters();
+    expect(cwgs.map).to.equal("I'm the map!");
+    cwgs.map = "It's the map!";
+    expect(cwgs.map).to.equal("It's the map!");
   });
 });
