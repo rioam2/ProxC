@@ -68,6 +68,6 @@ export class ClassWithGettersSetters extends ProxC {
     return this.m;
   }
   public set map(v: string) {
-    this.map = v;
+    this.m = v;
   }
 }
