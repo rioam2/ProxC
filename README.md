@@ -1,5 +1,11 @@
 # ProxC
 
+[![Build Status](https://travis-ci.com/rioam2/ProxC.svg?branch=master)](https://travis-ci.com/rioam2/ProxC)
+[![Coverage Status](https://coveralls.io/repos/github/rioam2/ProxC/badge.svg?branch=master)](https://coveralls.io/github/rioam2/ProxC?branch=master)
+[![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
+[![NPM Version](https://img.shields.io/npm/v/proxc.svg)](https://github.com/rioam2/bstjs)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://img.shields.io/badge/license-MIT-blue.svg)
+
 An NPM Package that allows you to create extensible classes and design declarative APIs that are a joy to use in Javascript
 
 ## Motivation
