@@ -1,7 +1,7 @@
 {
   "name": "proxc",
   "license": "MIT",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "rioam2",
   "homepage": "https://github.com/rioam2/ProxC#readme",
   "description": "ProxC allows you to create extensible classes using ES6 Proxy objects and design declarative APIs that are a joy to use.",
