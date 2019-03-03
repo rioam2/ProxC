@@ -5,7 +5,7 @@ export interface ProxC {
   [index: number]: any;
 }
 
-export abstract class ProxC {
+export class ProxC {
   public *[Symbol.iterator](): IterableIterator<any> {}
 
   constructor() {
@@ -22,13 +22,9 @@ export abstract class ProxC {
         if (tar[prop] !== undefined) {
           return tar[prop];
         } else {
-          try {
-            /* Handler captures prop as a string, try to convert if necessary */
-            const nProp = Number(prop);
-            return tar['__accessor__'].call(tar, nProp == prop ? nProp : prop);
-          } catch (e) {
-            return tar['__accessor__'].call(tar, prop);
-          }
+          /* Handler captures prop as a string, convert if necessary */
+          const nProp = Number(prop);
+          return tar['__accessor__'].call(tar, nProp == prop ? nProp : prop);
         }
       },
       apply: (tar: any, thisArg: any, argList: any[]) => {

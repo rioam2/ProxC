@@ -8,11 +8,31 @@ import {
   ClassWithMemberMethods,
   ClassWithGettersSetters
 } from './testClasses';
+import { ProxC } from '../src';
 
 const { describe, it } = mocha;
 const { expect, should } = chai;
 
 describe('Basic Functionality', () => {
+  it('should throw without extension', () => {
+    const prox = new ProxC();
+    let iteratorThrows = false;
+    let callerThrows = false;
+    expect(prox.nonexistent).to.be.undefined;
+    try {
+      for (let i of prox);
+    } catch (e) {
+      iteratorThrows = true;
+    }
+    try {
+      prox();
+    } catch (e) {
+      callerThrows = true;
+    }
+    expect(iteratorThrows, 'iterator throws without extension').to.be.true;
+    expect(callerThrows, 'caller throws without extension').to.be.true;
+  });
+
   it('is an iterable object (Symbol.iterator)', () => {
     const iter = new IterableClass();
     let res = [];
@@ -61,8 +81,8 @@ describe('Basic Functionality', () => {
 
   it('has access to own setter/getter methods', () => {
     const cwgs = new ClassWithGettersSetters();
-    expect(cwgs.map).to.equal("I'm the map!");
+    expect(cwgs.map, 'class getter works').to.equal("I'm the map!");
     cwgs.map = "It's the map!";
-    expect(cwgs.map).to.equal("It's the map!");
+    expect(cwgs.map, 'class setter works').to.equal("It's the map!");
   });
 });
