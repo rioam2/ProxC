@@ -14,6 +14,8 @@ This package was heavily inspired by C++. In C++, you can overload the functiona
 
 In Javascript, Proxy Objects allow you to intercept and define custom behavior for fundamental operations such as property lookup/access `[]`, assignment `=`, enumeration, and function invocation `()`. These can be used to design extensible ES6 classes that allow synthetic operator definition with functionality similar to that of operator overloading in languages such as C++.
 
+ProxC aims to combine the functionality of ES6 Proxy Objects with the convenience Javascript Classes. No functionality is gained over using Proxy Objects, however, ProxC allows developers to stay away from convoluted implementation details and define customizable APIs that are both easier to use and maintain.
+
 ## API Documentation
 
 By extending ProxC in your class definition and defining the following member functions, you are able to design a fully custom interface for your API:
@@ -41,3 +43,7 @@ By extending ProxC in your class definition and defining the following member fu
   If not defined, and the class attempts to be iterated, a TypeError will be thrown.
 
   _Example: `for (const elt of myClass) {...}` loops over the iterable returned by `__iterator__` on `myClass`._
+
+# Examples
+
+1.  [Circular Array Data Structure](examples/circularArray.js)
