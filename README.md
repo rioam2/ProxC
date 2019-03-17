@@ -1,4 +1,4 @@
-![ProxC Logo](assets/proxc_logo.png)
+<img src="assets/proxc_logo.png" alt="ProxC Logo" style="width: 500px; max-width: 50%;">
 
 [![Build Status](https://travis-ci.com/rioam2/ProxC.svg?branch=master)](https://travis-ci.com/rioam2/ProxC)
 [![Coverage Status](https://coveralls.io/repos/github/rioam2/ProxC/badge.svg?branch=master)](https://coveralls.io/github/rioam2/ProxC?branch=master)
